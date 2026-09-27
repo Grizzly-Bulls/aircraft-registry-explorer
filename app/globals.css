@@ -818,3 +818,400 @@ footer p {
     font-size: 40px;
   }
 }
+
+
+.recordActions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 24px;
+}
+
+.historyBoundary {
+  border: 1px solid rgba(185, 245, 125, 0.18);
+  border-radius: 14px;
+  background: rgba(185, 245, 125, 0.05);
+  margin-top: 18px;
+  padding: 18px 20px;
+}
+
+.historyBoundary strong {
+  color: var(--accent);
+}
+
+.historyBoundary p {
+  margin: 8px 0 0;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.historyLayout {
+  display: grid;
+  gap: 24px;
+  margin-top: 42px;
+}
+
+.historySection {
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: rgba(13, 26, 20, 0.82);
+  padding: 26px;
+}
+
+.historySectionHeading {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 22px;
+}
+
+.historySectionHeading h2 {
+  font-size: clamp(30px, 4vw, 42px);
+}
+
+.historySectionHeading > span {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.historyIntro {
+  margin: 14px 0 0;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.historyVersionList,
+.historyEventList {
+  display: grid;
+  gap: 14px;
+  margin-top: 24px;
+}
+
+.historyVersion {
+  display: grid;
+  grid-template-columns: 28px minmax(0, 1fr);
+}
+
+.historyVersionRail {
+  position: relative;
+}
+
+.historyVersionRail::before {
+  position: absolute;
+  top: 0;
+  bottom: -14px;
+  left: 13px;
+  width: 1px;
+  background: var(--line);
+  content: "";
+}
+
+.historyVersion:last-child .historyVersionRail::before {
+  bottom: 50%;
+}
+
+.historyVersionRail span {
+  position: absolute;
+  top: 23px;
+  left: 7px;
+  z-index: 1;
+  width: 13px;
+  height: 13px;
+  border: 2px solid var(--background);
+  border-radius: 50%;
+  background: var(--accent);
+}
+
+.historyVersionBody,
+.historyEvent {
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: #0c1812;
+}
+
+.historyVersionBody {
+  padding: 20px;
+}
+
+.historyVersionHeader,
+.eventHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.historyVersionHeader h3,
+.eventHeader h3 {
+  margin: 0;
+  font-size: 21px;
+  letter-spacing: -0.02em;
+}
+
+.historyLabel {
+  margin: 0 0 7px;
+  color: #84958c;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+
+.historyStatus {
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 7px 10px;
+  color: var(--accent);
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.observationWindow {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--line);
+  margin-top: 18px;
+}
+
+.observationWindow > div {
+  background: rgba(185, 245, 125, 0.035);
+  padding: 14px;
+}
+
+.observationWindow span {
+  display: block;
+  color: #84958c;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.observationWindow strong {
+  display: block;
+  margin-top: 7px;
+  color: #dfe8e3;
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.historyDetailGrid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--line);
+  margin: 14px 0 0;
+}
+
+.historyDetailGrid > div {
+  min-width: 0;
+  background: #0b1611;
+  padding: 14px;
+}
+
+.historyDetailGrid dt {
+  color: #84958c;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.historyDetailGrid dd {
+  overflow-wrap: anywhere;
+  margin: 7px 0 0;
+  color: #dfe8e3;
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.historySourceRow,
+.eventMeta {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  margin-top: 14px;
+  color: #7e8d85;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.historySourceRow a,
+.eventMeta a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.historyEvent {
+  position: relative;
+  margin-left: 28px;
+}
+
+.eventMarker {
+  position: absolute;
+  top: 24px;
+  left: -21px;
+  width: 9px;
+  height: 9px;
+  border-radius: 2px;
+  background: #c7d7ce;
+  transform: rotate(45deg);
+}
+
+.eventBody {
+  padding: 20px;
+}
+
+.eventHeader time {
+  color: #8b9b92;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.effectiveDate,
+.statusTransition,
+.eventNote {
+  margin: 14px 0 0;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+.effectiveDate strong {
+  color: var(--text);
+}
+
+.changedFields {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.changedFields span {
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.025);
+  padding: 6px 9px;
+  color: #cdd9d2;
+  font-size: 11px;
+}
+
+.historyPager {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  border-top: 1px solid var(--line);
+  margin-top: 22px;
+  padding-top: 18px;
+}
+
+.historyPager > span {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.historyPager > div {
+  display: flex;
+  gap: 10px;
+}
+
+.pagerLink {
+  display: inline-flex;
+  min-height: 38px;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  padding: 0 12px;
+  color: #d7e2dc;
+  font-size: 12px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.pagerLink:hover {
+  border-color: rgba(185, 245, 125, 0.35);
+}
+
+.primaryPager {
+  background: var(--accent);
+  color: var(--ink);
+}
+
+.primaryPager:hover {
+  background: var(--accent-strong);
+}
+
+@media (max-width: 820px) {
+  .historySectionHeading,
+  .historyVersionHeader,
+  .eventHeader,
+  .historySourceRow,
+  .eventMeta,
+  .historyPager {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .historyDetailGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .eventHeader time {
+    white-space: normal;
+  }
+}
+
+@media (max-width: 560px) {
+  .recordActions {
+    justify-content: stretch;
+  }
+
+  .recordActions .button {
+    width: 100%;
+  }
+
+  .historySection {
+    padding: 18px;
+  }
+
+  .historyVersion {
+    grid-template-columns: 18px minmax(0, 1fr);
+  }
+
+  .historyVersionRail::before {
+    left: 8px;
+  }
+
+  .historyVersionRail span {
+    left: 2px;
+  }
+
+  .historyDetailGrid,
+  .observationWindow {
+    grid-template-columns: 1fr;
+  }
+
+  .historyEvent {
+    margin-left: 18px;
+  }
+
+  .eventMarker {
+    left: -15px;
+  }
+
+  .historyPager > div {
+    width: 100%;
+    flex-wrap: wrap;
+  }
+}

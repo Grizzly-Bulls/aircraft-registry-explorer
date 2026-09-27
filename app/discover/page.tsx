@@ -93,6 +93,7 @@ export default async function DiscoverPage({
           <div className="navLinks">
             <Link href="/lookup">Lookup</Link>
             <Link href="/discover">Discover</Link>
+            <Link href="/history">History</Link>
             <a href="https://grizzlybulls.com/aircraft-api">API</a>
           </div>
         </nav>

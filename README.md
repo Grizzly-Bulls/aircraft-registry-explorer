@@ -15,11 +15,12 @@ The current application supports:
 - current aircraft, engine, airworthiness, registration, and Mode S / ICAO24 fields returned for an N-number;
 - source freshness and provenance alongside current records;
 - opaque keyset pagination for discovery results; and
-- click-through from a discovery result to the current N-number record.
+- click-through from a discovery result to the current N-number record;
+- retained observed registration versions with explicit observation-window boundaries;
+- PII-free retained change events with source provenance; and
+- independent bounded pagination for observed versions and change events.
 
 It does not provide owner-name reverse search, Mode S or ICAO24 reverse lookup, global registry coverage, flight tracking, bulk registry export, fuzzy search, arbitrary discovery sorting, registry totals, or an unfiltered registry walk.
-
-The public Aircraft Intelligence API also exposes retained observed history. The current reference-app UI intentionally focuses on current lookup and discovery, so it does not yet render that history as a timeline.
 
 ## Local setup
 
@@ -44,7 +45,7 @@ Then run:
 pnpm dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000). Use `/lookup` for exact N-number lookup and `/discover` for bounded current-registry search.
+Open [http://localhost:3000](http://localhost:3000). Use `/lookup` for exact N-number lookup, `/discover` for bounded current-registry search, and `/history` for retained observed history.
 
 You can create a free API key from the [Aircraft Intelligence API page](https://grizzlybulls.com/aircraft-api). The machine-readable contract is available as [OpenAPI 3.1](https://api.grizzlybulls.com/v1/openapi.json).
 
@@ -79,6 +80,18 @@ Registry discovery mirrors the public API contract:
 - cursors are reused only with the same search filters.
 
 The application does not decode cursors or infer page numbers or registry totals from them.
+
+## History semantics
+
+The `/history` page consumes the public retained-history endpoint without creating a second history model.
+
+Observed versions are displayed using the API's `observedFrom` and `observedThrough` snapshot retrieval boundaries. Those windows show when Grizzly Bulls observed a state in validated FAA registry data. They are not legal ownership periods and do not establish the exact time a real-world registration change occurred.
+
+Change events use the API's reviewed PII-free event vocabulary. A source effective date is shown only when the API supplies a non-null `sourceEffectiveDate`. The application does not infer one from observation timestamps.
+
+Observed versions and change events have independent pagination authorities. Moving through one list preserves the current offset of the other list.
+
+The history UI deliberately does not display retained registrant names, street addresses, aliases, or other personal details. Current FAA public withholding remains authoritative over retained history, and the app does not attempt to reconstruct suppressed information.
 
 ## Data interpretation
 
