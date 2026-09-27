@@ -34,7 +34,9 @@ The implemented current-data UI has two server-rendered routes:
 
 Discovery result rows may link into `/lookup` and carry only a validated local return URL. Do not decode discovery cursors, infer page numbers or totals, or introduce client-side API calls to make pagination look richer than the public contract.
 
-The current UI does not yet render retained history. Do not present a history timeline as implemented until the application actually consumes the public history endpoint and preserves its observation-time/privacy semantics.
+The implemented `/history` route consumes the public retained-history endpoint and renders observed versions plus PII-free change events. Keep versions/events pagination independent, preserve the other list's offset when one list moves, and never merge them into one invented pagination authority.
+
+History UI must not display retained registrant names, street addresses, aliases, or other personal details. Show a nullable source effective date only when the API supplies it. Never derive an effective date from `observedAt`, `observedFrom`, or `observedThrough`.
 
 ## API key and request boundary
 

@@ -145,7 +145,7 @@ test('discovery is bounded, links results to lookup, and exposes only next-curso
   assert.doesNotMatch(discoveryPage, /name="owner"|name="registrant"|name="sort"/);
 });
 
-test('public copy advertises only implemented lookup and discovery surfaces', () => {
+test('public copy keeps lookup and discovery boundaries after history is added', () => {
   for (const source of [homePage, readme]) {
     assert.match(source, /exact N-number|N-number lookup/i);
     assert.match(source, /manufacturer/);
@@ -156,6 +156,7 @@ test('public copy advertises only implemented lookup and discovery surfaces', ()
     assert.doesNotMatch(source, /\bAIR\d+[A-Z]*\b/);
   }
 
-  assert.match(readme, /does not yet render that history as a timeline/);
+  assert.match(homePage, /Observed registry changes/);
+  assert.match(readme, /retained observed registration versions/);
   assert.match(readme, /does not decode cursors/);
 });

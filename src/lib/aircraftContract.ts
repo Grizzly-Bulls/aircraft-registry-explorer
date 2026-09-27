@@ -108,6 +108,105 @@ export type AircraftDiscoveryResponse = {
   };
 };
 
+
+export const AIRCRAFT_HISTORY_PAGE_SIZE = 10;
+export const AIRCRAFT_HISTORY_MAX_OFFSET = 10_000;
+
+export const AIRCRAFT_HISTORY_EVENT_TYPES = [
+  'registration_added',
+  'registration_removed',
+  'registration_record_changed',
+  'aircraft_assignment_changed',
+  'status_changed',
+  'registrant_changed',
+  'registrant_pii_withheld',
+  'registrant_pii_released',
+] as const;
+
+export type AircraftHistoryEventType = (typeof AIRCRAFT_HISTORY_EVENT_TYPES)[number];
+
+export type AircraftHistoryChangedField =
+  | 'aircraft_assignment'
+  | 'registration_identifier'
+  | 'aircraft_model'
+  | 'engine_model'
+  | 'manufacture_year'
+  | 'aircraft_type'
+  | 'engine_type'
+  | 'registration_status'
+  | 'mode_s_code'
+  | 'certificate_issue_date'
+  | 'expiration_date'
+  | 'last_activity_date'
+  | 'airworthiness_date'
+  | 'fractional_ownership'
+  | 'registrant_type';
+
+export type AircraftObservationBoundary = {
+  retrievedAt: string;
+  sourceContractVersion: string;
+  sourceUrl: string;
+  archiveSha256: string;
+};
+
+export type AircraftHistoryVersion = {
+  contractVersion: 'aircraft-public-v1';
+  aircraftId: string | null;
+  registration: AircraftPublicRegistration;
+  aircraft: {
+    serialNumber: string | null;
+    manufactureYear: number | null;
+    sourceAircraftTypeCode: string | null;
+    sourceEngineTypeCode: string | null;
+    airworthinessDate: string | null;
+    modeSCodeOctal: string | null;
+    modeSCodeHex: string | null;
+  };
+  registrant: AircraftPublicCurrentRecord['registrant'];
+  sourceProvider: 'faa-releasable-aircraft-registry';
+  observedFrom: AircraftObservationBoundary;
+  observedThrough: AircraftObservationBoundary;
+};
+
+export type AircraftHistoryEvent = {
+  contractVersion: 'aircraft-public-v1';
+  aircraftId: string | null;
+  previousAircraftId: string | null;
+  nNumber: string;
+  eventType: AircraftHistoryEventType;
+  oldSourceRegistrationStatusCode: string | null;
+  newSourceRegistrationStatusCode: string | null;
+  changedFields: readonly AircraftHistoryChangedField[];
+  sourceEffectiveDate: string | null;
+  observedAt: string;
+  previousObservedAt: string | null;
+  source: AircraftPublicSourceSnapshot;
+};
+
+export type AircraftHistoryPageMeta = {
+  limit: number;
+  offset: number;
+  total: number;
+  hasMore: boolean;
+};
+
+export type AircraftHistoryResponse = {
+  data: {
+    nNumber: string;
+    versions: readonly AircraftHistoryVersion[];
+    events: readonly AircraftHistoryEvent[];
+  };
+  pagination: {
+    versions: AircraftHistoryPageMeta;
+    events: AircraftHistoryPageMeta;
+  };
+};
+
+export type AircraftHistoryOffsets = {
+  versionsOffset: number;
+  eventsOffset: number;
+};
+
 const normalizeTextFilter = (
   value: string | undefined,
   name: 'manufacturer' | 'model',
@@ -207,3 +306,55 @@ export const safeDiscoveryReturnUrl = (value: string | undefined): string | null
     return null;
   }
 };
+
+
+export const normalizeAircraftHistoryOffset = (
+  value: string | undefined,
+  name: 'versionsOffset' | 'eventsOffset',
+): number => {
+  if (value === undefined || value === '') return 0;
+  if (!/^[0-9]+$/.test(value)) throw new Error(`${name} must be a non-negative integer.`);
+  const parsed = Number(value);
+  if (!Number.isSafeInteger(parsed) || parsed > AIRCRAFT_HISTORY_MAX_OFFSET) {
+    throw new Error(`${name} must be between 0 and ${AIRCRAFT_HISTORY_MAX_OFFSET}.`);
+  }
+  return parsed;
+};
+
+export const buildAircraftHistoryPath = (
+  nNumber: string,
+  offsets: AircraftHistoryOffsets,
+): string => {
+  const normalized = normalizeAircraftNNumber(nNumber);
+  if (!normalized) throw new Error('A valid U.S. N-number is required.');
+  const params = new URLSearchParams({
+    versionsLimit: String(AIRCRAFT_HISTORY_PAGE_SIZE),
+    versionsOffset: String(offsets.versionsOffset),
+    eventsLimit: String(AIRCRAFT_HISTORY_PAGE_SIZE),
+    eventsOffset: String(offsets.eventsOffset),
+  });
+  return `/aircraft/${encodeURIComponent(normalized)}/history?${params.toString()}`;
+};
+
+export const buildHistoryPageUrl = (
+  nNumber: string,
+  offsets: AircraftHistoryOffsets,
+): string => {
+  const normalized = normalizeAircraftNNumber(nNumber);
+  if (!normalized) throw new Error('A valid U.S. N-number is required.');
+  const params = new URLSearchParams({ nNumber: normalized });
+  if (offsets.versionsOffset > 0) params.set('versionsOffset', String(offsets.versionsOffset));
+  if (offsets.eventsOffset > 0) params.set('eventsOffset', String(offsets.eventsOffset));
+  return `/history?${params.toString()}`;
+};
+
+export const labelAircraftHistoryEvent = (eventType: AircraftHistoryEventType): string => ({
+  registration_added: 'Registration added',
+  registration_removed: 'Registration removed',
+  registration_record_changed: 'Registration record changed',
+  aircraft_assignment_changed: 'Aircraft assignment changed',
+  status_changed: 'Registration status changed',
+  registrant_changed: 'Registrant record changed',
+  registrant_pii_withheld: 'Registrant information withheld',
+  registrant_pii_released: 'Registrant information released',
+})[eventType];

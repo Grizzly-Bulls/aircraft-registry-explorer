@@ -198,6 +198,7 @@ export default async function LookupPage({
           <div className="navLinks">
             <Link href="/lookup">Lookup</Link>
             <Link href="/discover">Discover</Link>
+            <Link href="/history">History</Link>
             <a href="https://grizzlybulls.com/aircraft-api">API</a>
           </div>
         </nav>
@@ -240,7 +241,19 @@ export default async function LookupPage({
           </div>
         ) : null}
 
-        {record ? <AircraftResult record={record} /> : null}
+        {record ? (
+          <>
+            <div className="recordActions">
+              <Link
+                className="button primary"
+                href={{ pathname: '/history', query: { nNumber: record.registration.nNumber } }}
+              >
+                View observed history
+              </Link>
+            </div>
+            <AircraftResult record={record} />
+          </>
+        ) : null}
       </section>
     </main>
   );

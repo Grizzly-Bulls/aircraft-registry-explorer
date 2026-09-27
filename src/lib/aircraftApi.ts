@@ -2,12 +2,15 @@ import 'server-only';
 
 import {
   buildAircraftDiscoveryPath,
+  buildAircraftHistoryPath,
   buildAircraftLookupPath,
   normalizeAircraftDiscoveryCursor,
   normalizeAircraftDiscoveryFilters,
   type AircraftCurrentResponse,
   type AircraftDiscoveryInput,
   type AircraftDiscoveryResponse,
+  type AircraftHistoryOffsets,
+  type AircraftHistoryResponse,
 } from './aircraftContract';
 
 export const AIRCRAFT_API_BASE_URL = 'https://api.grizzlybulls.com/v1';
@@ -98,3 +101,13 @@ export const searchAircraftRegistry = async (
   const response = await aircraftApiRequest<AircraftDiscoveryResponse>(path as `/${string}`);
   return { filters, response };
 };
+
+
+export const getAircraftHistory = async (
+  nNumber: string,
+  offsets: AircraftHistoryOffsets,
+): Promise<AircraftHistoryResponse> => (
+  aircraftApiRequest<AircraftHistoryResponse>(
+    buildAircraftHistoryPath(nNumber, offsets) as `/${string}`,
+  )
+);

@@ -16,11 +16,11 @@ const capabilities = [
     action: 'Search registry',
   },
   {
-    eyebrow: 'Provenance',
-    title: 'Freshness with the record',
-    body: 'See the FAA registry source, retrieval timestamp, source contract, and observed-history summary alongside current aircraft details.',
-    href: '/lookup',
-    action: 'View record fields',
+    eyebrow: 'History',
+    title: 'Observed registry changes',
+    body: 'Inspect retained registration states and PII-free change events while keeping snapshot observation time distinct from legal or source-effective time.',
+    href: '/history',
+    action: 'View observed history',
   },
 ] as const;
 
@@ -45,6 +45,7 @@ export default function Home() {
           <div className="navLinks">
             <Link href="/lookup">Lookup</Link>
             <Link href="/discover">Discover</Link>
+            <Link href="/history">History</Link>
             <a href="https://grizzlybulls.com/aircraft-api">API</a>
             <a href="https://github.com/Grizzly-Bulls/aircraft-registry-explorer">GitHub</a>
           </div>
