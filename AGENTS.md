@@ -44,7 +44,7 @@ History UI must not display retained registrant names, street addresses, aliases
 
 - Never expose it through `NEXT_PUBLIC_*`, rendered HTML, client JavaScript, browser storage, URLs, analytics, logs, screenshots, fixtures, or committed files.
 - Browser components should call application-owned server routes or server actions. They should not call the machine API directly while browser CORS is intentionally disabled.
-- Do not ship a public hosted demo backed by one unrestricted shared production key.
+- Hosted deployment is allowed only with the reviewed dedicated first-party demo credential, server-only secret handling, application-side per-client/global abuse limits, and the machine API's separate aggregate demo ceiling. Never use a normal customer key as the public shared credential.
 - Keep API errors bounded and useful without leaking secrets or internal implementation details.
 
 ## Data and privacy semantics
@@ -75,6 +75,8 @@ Do not add a database, user account system, queue, background worker, or another
 
 Keep domain transport and normalization out of presentation components. Reusable API request behavior belongs under `src/lib/`.
 
+When `AIRCRAFT_DEMO_HOSTED=true`, every machine-API request must pass the server-only abuse limiter before transport. Client identity may be derived only from trusted reverse-proxy address headers, fingerprinted in process memory, and never persisted or logged. Health checks do not consume the demo request budget.
+
 ## Open-source packaging
 
 README and GitHub packaging must stay aligned with the real application and public API.
@@ -84,7 +86,7 @@ README and GitHub packaging must stay aligned with the real application and publ
 - Repository screenshots must come from the real local application. Do not fabricate aircraft records, generate imitation UI screenshots, or capture API keys, credentials, registrant personal details, terminal content, or browser-profile information.
 - Use the reviewed screenshot checklist in `docs/screenshots/README.md`.
 - Keep issue and pull request templates focused on reproducibility, integration context, local validation, secret hygiene, privacy, and unsupported-scope checks.
-- GitHub description/topics should follow `docs/github-metadata.md` and must not imply unsupported owner search, Mode S reverse lookup, global coverage, flight tracking, or hosted availability.
+- GitHub description/topics/website should follow `docs/github-metadata.md`. The website may point to the reviewed hosted demo once it is live, but metadata must not imply unsupported owner search, Mode S reverse lookup, global coverage, or flight tracking.
 
 ## Public copy
 

@@ -11,7 +11,7 @@ Open-source Next.js reference app for FAA aircraft lookup, bounded registry disc
 ## Website
 
 ```text
-https://grizzlybulls.com/aircraft-api
+https://aircraft-demo.grizzlybulls.com
 ```
 
 ## Topics

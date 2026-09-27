@@ -1,5 +1,7 @@
 import 'server-only';
 
+import { enforceHostedDemoRequestLimit } from './hostedDemo';
+
 import {
   buildAircraftDiscoveryPath,
   buildAircraftHistoryPath,
@@ -55,6 +57,8 @@ export const aircraftApiRequest = async <T>(
   path: `/${string}`,
   init: RequestInit = {},
 ): Promise<T> => {
+  await enforceHostedDemoRequestLimit();
+
   const headers = new Headers(init.headers);
   headers.set('Accept', 'application/json');
   headers.set('Authorization', `Bearer ${getApiKey()}`);

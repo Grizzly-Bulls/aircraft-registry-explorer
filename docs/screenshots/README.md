@@ -1,12 +1,16 @@
 # Screenshot capture guide
 
-README and distribution screenshots must come from the real local Aircraft Registry Explorer application.
+README and distribution screenshots must come from the real Aircraft Registry Explorer application.
 
-Do not create mock aircraft records, generated imitation UI, or screenshots backed by a shared production API key.
+For the distribution set, prefer the reviewed hosted application at `https://aircraft-demo.grizzlybulls.com` after its health/security checks pass. Local captures with your own API key are acceptable during development.
+
+Do not create mock aircraft records, generated imitation UI, or screenshots backed by a normal customer key shared with the public.
 
 ## Setup
 
-Run the application locally with your own Aircraft Intelligence API key:
+For the final hosted capture set, open `https://aircraft-demo.grizzlybulls.com` and use the reviewed preset flows. The hosted credential remains server-only and must not be visible in browser tools or page source.
+
+For local capture during development, run the application with your own Aircraft Intelligence API key:
 
 ```bash
 pnpm install

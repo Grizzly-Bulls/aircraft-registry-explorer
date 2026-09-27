@@ -42,7 +42,8 @@ test('the reference app is pinned to the public versioned Aircraft API', () => {
 });
 
 test('the API key stays server-only', () => {
-  assert.equal(envExample.trim(), 'GRIZZLY_BULLS_API_KEY=');
+  assert.match(envExample, /^GRIZZLY_BULLS_API_KEY=$/m);
+  assert.match(envExample, /^AIRCRAFT_DEMO_HOSTED=false$/m);
   assert.doesNotMatch(envExample, /NEXT_PUBLIC/);
   assert.match(apiClient, /import 'server-only'/);
   assert.match(apiClient, /process\.env\.GRIZZLY_BULLS_API_KEY/);

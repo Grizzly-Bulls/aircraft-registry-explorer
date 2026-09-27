@@ -2,6 +2,8 @@
 
 Aircraft Registry Explorer is an open-source Next.js reference application for the [Grizzly Bulls Aircraft Intelligence API](https://grizzlybulls.com/aircraft-api).
 
+**[Try the live demo](https://aircraft-demo.grizzlybulls.com)** or clone the repository and run the same integration locally with your own API key.
+
 It shows how to build against current U.S. FAA aircraft registration data without downloading, normalizing, storing, or serving the FAA bulk registry yourself.
 
 The application uses the same public API contract available to any developer. It does not import private Grizzly Bulls code, connect to Grizzly Bulls databases, or maintain a second aircraft-data source of truth.
@@ -57,7 +59,7 @@ Try these three workflows:
 2. **Discover:** open `/discover` and search by exact manufacturer, model, registrant state, or a combination.
 3. **History:** open `/history` and enter an N-number to inspect retained observed versions and PII-free change events.
 
-The machine-readable API contract is available as [OpenAPI 3.1](https://api.grizzlybulls.com/v1/openapi.json).
+The machine-readable API contract is available as [OpenAPI 3.1](https://api.grizzlybulls.com/v1/openapi).
 
 ## What the app demonstrates
 
@@ -77,7 +79,7 @@ It does **not** provide owner-name reverse search, Mode S or ICAO24 reverse look
 
 ## Architecture
 
-The browser never receives the Aircraft API key.
+The browser never receives the Aircraft API key. The hosted demo uses a dedicated first-party server credential behind additional per-client and global abuse limits; local clones use the developer's own server-side key.
 
 ```text
 browser
@@ -94,6 +96,14 @@ https://api.grizzlybulls.com/v1
 `GRIZZLY_BULLS_API_KEY` is read only by the server-side API adapter under `src/lib/`. Browser code does not call `api.grizzlybulls.com` directly. Browser CORS is intentionally not enabled.
 
 The repository has no aircraft database, account system, background worker, FAA ingestion pipeline, or private Grizzly Bulls dependency.
+
+### Hosted demo boundary
+
+The live demo at [aircraft-demo.grizzlybulls.com](https://aircraft-demo.grizzlybulls.com) runs this repository as a server-side application. Its dedicated Grizzly Bulls demo credential is injected only into the server runtime and is never sent to browser code.
+
+Hosted mode also applies lower application-side abuse limits before a request reaches the Aircraft API. The machine API independently applies a higher first-party demo ceiling. Demo traffic does not consume a customer monthly quota and is not treated as customer API adoption.
+
+The hosted app exposes no generic proxy route: visitors can use only the same exact lookup, bounded discovery, and observed-history workflows implemented in this repository.
 
 ## Public API examples
 
@@ -156,7 +166,7 @@ const { data } = await response.json();
 console.log(data.registration.nNumber);
 ```
 
-For the complete request and response contract, use the [OpenAPI document](https://api.grizzlybulls.com/v1/openapi.json).
+For the complete request and response contract, use the [OpenAPI document](https://api.grizzlybulls.com/v1/openapi).
 
 ## Discovery semantics
 
@@ -189,11 +199,13 @@ FAA registration data identifies the public registrant record. It is not proof o
 
 Mode S / ICAO24 values shown on a lookup page are fields returned for that N-number. Their presence does not imply that the app supports reverse lookup from those identifiers.
 
-This project is an API integration example, not a global aviation registry, flight tracker, legal ownership ledger, or hosted public search service.
+This project is an API integration example, not a global aviation registry, flight tracker, legal ownership ledger, or unrestricted public registry-search service.
 
 ## Screenshots
 
-Repository screenshots should be captured from the real local application, not from mock aircraft records or generated imagery. See [docs/screenshots/README.md](./docs/screenshots/README.md) for the reviewed capture set and privacy checklist.
+Repository screenshots must be real captures from this application, not mock aircraft records or generated imagery. The reviewed set is `lookup.png`, `discover.png`, and `history.png` under `docs/screenshots/`. See [docs/screenshots/README.md](./docs/screenshots/README.md) for the capture and privacy checklist.
+
+For distribution screenshots, prefer the live hosted application after its server-only credential and abuse controls are verified.
 
 ## Contributing
 
@@ -210,8 +222,9 @@ The final status should be clean.
 
 ## Links
 
+- [Live demo](https://aircraft-demo.grizzlybulls.com)
 - [Aircraft Intelligence API](https://grizzlybulls.com/aircraft-api)
-- [OpenAPI 3.1 contract](https://api.grizzlybulls.com/v1/openapi.json)
+- [OpenAPI 3.1 contract](https://api.grizzlybulls.com/v1/openapi)
 - [Grizzly Bulls](https://grizzlybulls.com)
 - [Contributing guide](./CONTRIBUTING.md)
 - [MIT license](./LICENSE)
