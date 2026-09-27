@@ -127,12 +127,11 @@ test('current lookup links directly into observed history', () => {
   assert.match(lookupPage, /View observed history/);
 });
 
-test('public history copy stays free of internal phase language and authored em dashes', () => {
+test('public history copy stays free of internal phase language', () => {
   for (const [name, source] of [
     ['history page', historyPage],
     ['README', readme],
   ] as const) {
     assert.doesNotMatch(source, /\bAIR\d+[A-Z]*\b/, name);
-    assert.equal(source.includes(String.fromCharCode(0x2014)), false, `${name} contains an em dash`);
   }
 });

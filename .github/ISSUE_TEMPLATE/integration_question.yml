@@ -1,0 +1,48 @@
+name: Integration question
+description: Ask about using or interpreting the public Aircraft Intelligence API in this reference app
+title: "[Integration]: "
+labels: []
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this template for questions about current lookup, bounded discovery, server-side authentication, or observed history. For the complete machine contract, see https://api.grizzlybulls.com/v1/openapi.json.
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Integration area
+      options:
+        - Exact N-number lookup
+        - Bounded manufacturer/model/state discovery
+        - Discovery cursor pagination
+        - Observed history
+        - Server-only API key handling
+        - Error handling and rate limits
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: question
+    attributes:
+      label: Question
+      description: Describe what you are trying to build or understand.
+    validations:
+      required: true
+
+  - type: textarea
+    id: tried
+    attributes:
+      label: What have you tried?
+      description: Include sanitized request shapes or code if useful. Do not include an API key.
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: safety
+    attributes:
+      label: Safety check
+      options:
+        - label: I did not include API keys, credentials, or registrant personal information.
+          required: true

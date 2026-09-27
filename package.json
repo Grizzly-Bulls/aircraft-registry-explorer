@@ -30,5 +30,11 @@
     "eslint-config-next": "16.2.6",
     "tsx": "^4.22.3",
     "typescript": "5.8.3"
-  }
+  },
+  "description": "Open-source Next.js reference app for the Grizzly Bulls Aircraft Intelligence API",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Grizzly-Bulls/aircraft-registry-explorer.git"
+  },
+  "homepage": "https://grizzlybulls.com/aircraft-api"
 }
