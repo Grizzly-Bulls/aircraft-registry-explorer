@@ -25,6 +25,17 @@ The application may demonstrate:
 
 Do not add owner-name reverse search, unfiltered registry walking, bulk export, fuzzy search, Mode S or ICAO24 reverse lookup, global registry coverage, flight tracking, or another aviation product unless the public API itself gains that reviewed capability and this reference app has a clear reason to demonstrate it.
 
+## Current application surface
+
+The implemented current-data UI has two server-rendered routes:
+
+- `/lookup` performs exact N-number lookup and presents current aircraft, engine, registration, identifier, freshness, and provenance fields;
+- `/discover` performs bounded exact current-registry discovery by manufacturer, model, and registrant state with opaque next-cursor pagination.
+
+Discovery result rows may link into `/lookup` and carry only a validated local return URL. Do not decode discovery cursors, infer page numbers or totals, or introduce client-side API calls to make pagination look richer than the public contract.
+
+The current UI does not yet render retained history. Do not present a history timeline as implemented until the application actually consumes the public history endpoint and preserves its observation-time/privacy semantics.
+
 ## API key and request boundary
 
 `GRIZZLY_BULLS_API_KEY` is a server-only secret.

@@ -4,17 +4,23 @@ const capabilities = [
   {
     eyebrow: 'Lookup',
     title: 'Exact N-number records',
-    body: 'Explore a current U.S. aircraft registration by N-number with normalized aircraft, registration, engine, airworthiness, and source metadata.',
+    body: 'Explore a current U.S. aircraft registration by N-number with normalized aircraft, registration, engine, airworthiness, identifier, and source metadata.',
+    href: '/lookup',
+    action: 'Open lookup',
   },
   {
     eyebrow: 'Discover',
     title: 'Bounded registry search',
     body: 'Search the current registry by exact manufacturer, model, or registrant state using the same authenticated API available to developers.',
+    href: '/discover',
+    action: 'Search registry',
   },
   {
-    eyebrow: 'History',
-    title: 'Observed changes over time',
-    body: 'Turn retained versions and PII-free change events into a readable timeline while keeping observation time distinct from legal effective dates.',
+    eyebrow: 'Provenance',
+    title: 'Freshness with the record',
+    body: 'See the FAA registry source, retrieval timestamp, source contract, and observed-history summary alongside current aircraft details.',
+    href: '/lookup',
+    action: 'View record fields',
   },
 ] as const;
 
@@ -22,8 +28,9 @@ const boundaries = [
   'U.S. FAA registry data only',
   'API key stays on the server',
   'No owner-name reverse search',
+  'No unfiltered registry walking or bulk export',
   'No Mode S or ICAO24 reverse lookup',
-  'No claim that observed history is a legal ownership ledger',
+  'Registration data is not proof of beneficial ownership',
 ] as const;
 
 export default function Home() {
@@ -36,8 +43,9 @@ export default function Home() {
             <span>Aircraft Registry Explorer</span>
           </Link>
           <div className="navLinks">
+            <Link href="/lookup">Lookup</Link>
+            <Link href="/discover">Discover</Link>
             <a href="https://grizzlybulls.com/aircraft-api">API</a>
-            <a href="https://api.grizzlybulls.com/v1/openapi.json">OpenAPI</a>
             <a href="https://github.com/Grizzly-Bulls/aircraft-registry-explorer">GitHub</a>
           </div>
         </nav>
@@ -47,21 +55,17 @@ export default function Home() {
             <p className="kicker">Open-source reference app</p>
             <h1>Explore the FAA aircraft registry through a developer API.</h1>
             <p className="lede">
-              Aircraft Registry Explorer is built against the public Grizzly Bulls Aircraft
-              Intelligence API. It is designed to show how a real application can combine current
-              aircraft data, bounded registry discovery, source provenance, and observed history
-              without maintaining the FAA bulk dataset itself.
+              Look up an exact N-number or search the current U.S. registry by exact manufacturer,
+              model, or registrant state. Every data request uses the public Grizzly Bulls Aircraft
+              Intelligence API through this application&apos;s server.
             </p>
             <div className="actions">
-              <a className="button primary" href="https://grizzlybulls.com/aircraft-api">
-                Get a free API key
-              </a>
-              <a
-                className="button secondary"
-                href="https://github.com/Grizzly-Bulls/aircraft-registry-explorer"
-              >
-                View source
-              </a>
+              <Link className="button primary" href="/lookup">
+                Look up an aircraft
+              </Link>
+              <Link className="button secondary" href="/discover">
+                Search the registry
+              </Link>
             </div>
           </div>
 
@@ -90,11 +94,11 @@ const aircraft = await response.json();`}</code>
 
       <section className="contentSection" aria-labelledby="scope-heading">
         <div className="sectionHeading">
-          <p className="kicker">Reference app scope</p>
-          <h2 id="scope-heading">One small app, built like an API customer.</h2>
+          <p className="kicker">Try the integration</p>
+          <h2 id="scope-heading">A small app built like an API customer.</h2>
           <p>
-            The repository deliberately stays narrow. It has no database, account system, FAA
-            ingestion pipeline, or second copy of the Aircraft API contract.
+            The repository has no aircraft database or FAA ingestion pipeline. The pages below use
+            the same public API contract and Bearer-key authentication available to any developer.
           </p>
         </div>
 
@@ -104,6 +108,9 @@ const aircraft = await response.json();`}</code>
               <p className="cardEyebrow">{capability.eyebrow}</p>
               <h3>{capability.title}</h3>
               <p>{capability.body}</p>
+              <Link className="cardLink" href={capability.href}>
+                {capability.action} →
+              </Link>
             </article>
           ))}
         </div>
@@ -129,7 +136,7 @@ const aircraft = await response.json();`}</code>
           </a>
           .
         </p>
-        <a href="https://github.com/Grizzly-Bulls">Grizzly Bulls on GitHub</a>
+        <a href="https://api.grizzlybulls.com/v1/openapi.json">OpenAPI 3.1 contract</a>
       </footer>
     </main>
   );
