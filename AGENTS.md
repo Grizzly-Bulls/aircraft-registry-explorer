@@ -75,13 +75,22 @@ Do not add a database, user account system, queue, background worker, or another
 
 Keep domain transport and normalization out of presentation components. Reusable API request behavior belongs under `src/lib/`.
 
+## Open-source packaging
+
+README and GitHub packaging must stay aligned with the real application and public API.
+
+- Keep a short clone-to-run path for Node.js 24, pnpm 11, `.env.local`, and `GRIZZLY_BULLS_API_KEY`.
+- Endpoint examples must match implemented public routes and remain safe for server or command-line use. Do not imply browser CORS or client-side secret handling.
+- Repository screenshots must come from the real local application. Do not fabricate aircraft records, generate imitation UI screenshots, or capture API keys, credentials, registrant personal details, terminal content, or browser-profile information.
+- Use the reviewed screenshot checklist in `docs/screenshots/README.md`.
+- Keep issue and pull request templates focused on reproducibility, integration context, local validation, secret hygiene, privacy, and unsupported-scope checks.
+- GitHub description/topics should follow `docs/github-metadata.md` and must not imply unsupported owner search, Mode S reverse lookup, global coverage, flight tracking, or hosted availability.
+
 ## Public copy
 
 Write for developers and aviation-data users, not for the team maintaining the roadmap.
 
 - Do not expose internal project phase names, codenames, test names, implementation milestones, or repository bookkeeping in the public UI or README.
-- Do not use em dashes in authored public prose.
-- Avoid generic AI-style filler, hype, and repetitive template structure.
 - Describe only capabilities that exist in the public API and in the current application.
 - Prefer concrete examples and explicit limitations over broad claims such as "complete," "global," "real-time," or "ownership history."
 

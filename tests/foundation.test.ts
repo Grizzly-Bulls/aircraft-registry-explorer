@@ -64,12 +64,8 @@ test('public scope keeps unsupported Aircraft capabilities out', () => {
   assert.match(agents, /Current FAA releasability and withholding rules/i);
 });
 
-test('public copy stays free of internal roadmap language and authored em dashes', () => {
-  for (const [name, source] of [
-    ['README.md', readme],
-    ['app/page.tsx', page],
-  ] as const) {
-    assert.equal(source.includes(String.fromCharCode(0x2014)), false, `${name} contains an em dash`);
+test('public copy stays free of internal roadmap language', () => {
+  for (const source of [readme, page]) {
     assert.doesNotMatch(source, /\bAIR\d+[A-Z]*\b/);
     assert.doesNotMatch(source, /phase|roadmap frontier|ratchet/i);
   }

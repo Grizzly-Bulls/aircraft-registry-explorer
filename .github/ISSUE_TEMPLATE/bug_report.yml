@@ -1,0 +1,76 @@
+name: Bug report
+description: Report a reproducible problem in Aircraft Registry Explorer
+title: "[Bug]: "
+labels: []
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting a problem. Do not include API keys, credentials, registrant personal information, or private Grizzly Bulls implementation details.
+
+  - type: dropdown
+    id: surface
+    attributes:
+      label: Affected surface
+      options:
+        - Lookup
+        - Discovery
+        - History
+        - Local setup or build
+        - Documentation
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+      description: What did you expect to happen?
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+      description: What happened instead? Sanitize logs before pasting them.
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Reproduction steps
+      description: Include the route and sanitized input shape. Do not include an API key.
+      placeholder: |
+        1. Start the app with pnpm dev
+        2. Open /lookup
+        3. Enter a valid N-number
+        4. ...
+    validations:
+      required: true
+
+  - type: input
+    id: node
+    attributes:
+      label: Node.js version
+      placeholder: "v24.x"
+    validations:
+      required: true
+
+  - type: input
+    id: pnpm
+    attributes:
+      label: pnpm version
+      placeholder: "11.x"
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: safety
+    attributes:
+      label: Safety check
+      options:
+        - label: I removed API keys, credentials, registrant personal information, and private implementation details from this report.
+          required: true

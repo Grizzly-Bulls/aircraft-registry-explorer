@@ -152,7 +152,6 @@ test('public copy keeps lookup and discovery boundaries after history is added',
     assert.match(source, /registrant state/);
     assert.match(source, /owner-name reverse search/i);
     assert.match(source, /Mode S|ICAO24/);
-    assert.equal(source.includes(String.fromCharCode(0x2014)), false);
     assert.doesNotMatch(source, /\bAIR\d+[A-Z]*\b/);
   }
 

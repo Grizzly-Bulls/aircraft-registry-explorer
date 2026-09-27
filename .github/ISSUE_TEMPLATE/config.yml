@@ -1,0 +1,8 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Aircraft Intelligence API documentation
+    url: https://grizzlybulls.com/aircraft-api
+    about: Product documentation, free API key path, limits, and troubleshooting
+  - name: OpenAPI 3.1 contract
+    url: https://api.grizzlybulls.com/v1/openapi.json
+    about: Machine-readable request and response contract
