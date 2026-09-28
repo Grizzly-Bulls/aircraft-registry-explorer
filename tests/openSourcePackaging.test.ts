@@ -54,7 +54,9 @@ test('README explains the server-only architecture and product limits', () => {
   assert.match(readme, /no aircraft database/i);
   assert.match(readme, /does \*\*not\*\* provide owner-name reverse search/i);
   assert.match(readme, /Mode S or ICAO24 reverse lookup/);
-  assert.match(readme, /not a global aviation registry, flight tracker, legal ownership ledger, or hosted public search service/);
+  assert.match(readme, /not a global aviation registry, flight tracker, legal ownership ledger, or unrestricted public registry-search service/);
+  assert.match(readme, /Try the live demo/);
+  assert.match(readme, /aircraft-demo\.grizzlybulls\.com/);
 });
 
 test('packaging includes focused issue and pull request workflows', () => {
@@ -81,11 +83,14 @@ test('contribution guide keeps secrets, privacy, and unsupported scope bounded',
   assert.match(contributing, /Do not fabricate result data or generate imitation screenshots/);
 });
 
-test('README embeds the reviewed three-image product tour', () => {
+test('README embeds real committed screenshots for the reviewed three-image product tour', () => {
   assert.match(readme, /## Product tour/);
-  assert.match(readme, /docs\/screenshots\/lookup\.png/);
-  assert.match(readme, /docs\/screenshots\/discover\.png/);
-  assert.match(readme, /docs\/screenshots\/history\.png/);
+  for (const filename of ['lookup.png', 'discover.png', 'history.png']) {
+    assert.match(readme, new RegExp('docs/screenshots/' + filename.replace('.', '\\.')));
+    const screenshotPath = path.join(root, 'docs/screenshots', filename);
+    assert.equal(fs.existsSync(screenshotPath), true, `${filename} must be committed before merge`);
+    assert.ok(fs.statSync(screenshotPath).size >= 10_000, `${filename} must be a real non-trivial image`);
+  }
 });
 
 test('screenshot guide requires real app captures and privacy review', () => {
@@ -93,7 +98,8 @@ test('screenshot guide requires real app captures and privacy review', () => {
     assert.match(screenshotGuide, new RegExp(filename.replace('.', '\\.')));
   }
 
-  assert.match(screenshotGuide, /real local Aircraft Registry Explorer application/);
+  assert.match(screenshotGuide, /real Aircraft Registry Explorer application/);
+  assert.match(screenshotGuide, /aircraft-demo\.grizzlybulls\.com/);
   assert.match(screenshotGuide, /Do not create mock aircraft records, generated imitation UI/);
   assert.match(screenshotGuide, /confirm no API key/);
   assert.match(screenshotGuide, /historical registrant names, addresses, aliases, and postal information are not displayed/);
@@ -116,6 +122,7 @@ test('repository metadata stays focused on the implemented developer product', (
     assert.match(githubMetadata, new RegExp('^' + topic + '$', 'm'));
   }
   assert.match(githubMetadata, /Do not add topics that imply unsupported capabilities/);
+  assert.match(githubMetadata, /https:\/\/aircraft-demo\.grizzlybulls\.com/);
 
   assert.match(packageJson.description ?? '', /Grizzly Bulls Aircraft Intelligence API/);
   assert.equal(

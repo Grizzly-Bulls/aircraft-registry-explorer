@@ -7,6 +7,10 @@ export const metadata: Metadata = {
   title: 'Aircraft Registry Explorer',
   description:
     'Open-source reference application for exploring U.S. FAA aircraft registry data with the Grizzly Bulls Aircraft Intelligence API.',
+  robots: {
+    index: false,
+    follow: true,
+  },
 };
 
 export default function RootLayout({ children }: Readonly<{ children: ReactNode }>) {

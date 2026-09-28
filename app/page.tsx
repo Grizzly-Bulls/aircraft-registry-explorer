@@ -24,6 +24,30 @@ const capabilities = [
   },
 ] as const;
 
+const presets = [
+  {
+    eyebrow: 'Real N-number',
+    title: 'Open a current aircraft record',
+    body: 'Jump straight into a live exact-N-number response with aircraft, engine, registration, identifier, freshness, and provenance fields.',
+    href: '/lookup?nNumber=N172SP',
+    action: 'Open N172SP',
+  },
+  {
+    eyebrow: 'Bounded discovery',
+    title: 'Browse Florida registrations',
+    body: 'Run a real state-filtered registry query and click any returned N-number into its current record.',
+    href: '/discover?state=FL',
+    action: 'Browse Florida',
+  },
+  {
+    eyebrow: 'Observed history',
+    title: 'Inspect retained snapshots',
+    body: 'See how the same N-number appears across retained FAA snapshots without treating observation windows as legal ownership dates.',
+    href: '/history?nNumber=N172SP',
+    action: 'View observed history',
+  },
+] as const;
+
 const boundaries = [
   'U.S. FAA registry data only',
   'API key stays on the server',
@@ -90,6 +114,31 @@ export default function Home() {
 const aircraft = await response.json();`}</code>
             </pre>
           </aside>
+        </div>
+      </section>
+
+      <section className="contentSection presetSection" aria-labelledby="preset-heading">
+        <div className="sectionHeading">
+          <p className="kicker">One-click examples</p>
+          <h2 id="preset-heading">See the API working before you write any code.</h2>
+          <p>
+            These links run real requests through this application&apos;s server. No API key is sent
+            to your browser, and the results come from the same public Aircraft Intelligence API
+            contract available to developers.
+          </p>
+        </div>
+
+        <div className="cardGrid">
+          {presets.map((preset) => (
+            <article className="card presetCard" key={preset.title}>
+              <p className="cardEyebrow">{preset.eyebrow}</p>
+              <h3>{preset.title}</h3>
+              <p>{preset.body}</p>
+              <Link className="cardLink" href={preset.href}>
+                {preset.action} →
+              </Link>
+            </article>
+          ))}
         </div>
       </section>
 
