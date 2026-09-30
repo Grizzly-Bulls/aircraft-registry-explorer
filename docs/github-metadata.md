@@ -5,7 +5,7 @@ Use these values for the public repository settings.
 ## Description
 
 ```text
-Open-source Next.js reference app for FAA aircraft lookup, bounded registry discovery, and observed history with the Grizzly Bulls Aircraft Intelligence API.
+Open-source Next.js reference app for FAA aircraft lookup, ICAO24 resolution, lifecycle status, registry changes, discovery, and observed history.
 ```
 
 ## Website
@@ -31,7 +31,7 @@ developer-tools
 open-source
 ```
 
-Do not add topics that imply unsupported capabilities such as flight tracking, global aircraft data, owner search, Mode S reverse lookup, or real-time telemetry.
+Do not add topics that imply unsupported capabilities such as flight tracking, global aircraft data, owner search, ICAO24 ranges, or real-time telemetry.
 
 ## Social preview
 

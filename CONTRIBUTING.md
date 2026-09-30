@@ -29,10 +29,13 @@ Then run:
 pnpm dev
 ```
 
-The app has three primary integration surfaces:
+The app demonstrates six public integration surfaces:
 
 - `/lookup` for exact current N-number lookup;
-- `/discover` for bounded exact manufacturer/model/state discovery; and
+- `/icao24` for exact current ICAO24 / Mode S lookup;
+- `/status` for N-number lifecycle evidence;
+- `/changes` for bounded recent observed changes with privacy-safe diffs;
+- `/discover` for bounded exact current-registry discovery; and
 - `/history` for retained observed versions and PII-free change events.
 
 ## Before opening a pull request
@@ -63,9 +66,9 @@ The reference app does not provide:
 - unfiltered registry walking or bulk export;
 - fuzzy registry search;
 - arbitrary sorting or registry totals;
-- Mode S / ICAO24 reverse lookup;
+- ICAO24 range or fuzzy lookup;
 - global aircraft registry coverage;
-- flight tracking; or
+- flight tracking or live ADS-B positions; or
 - a hosted shared-key public search service.
 
 A new UI control must correspond to a reviewed capability already present in the public API.

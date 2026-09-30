@@ -17,20 +17,26 @@ Do not import private Grizzly Bulls application modules, query Grizzly Bulls dat
 The application may demonstrate:
 
 - exact U.S. N-number lookup;
+- exact six-digit ICAO24 / Mode S lookup against the current U.S. FAA registry;
+- evidence-backed N-number lifecycle status across registered, reserved, deregistered, and unknown states;
 - bounded current-registry discovery by supported public filters;
+- bounded recent observed changes with privacy-safe diffs;
 - current aircraft and registration details;
 - source freshness and provenance;
 - retained observed versions and PII-free change events; and
 - a visual history timeline that clearly distinguishes observation time from legal or source-effective time.
 
-Do not add owner-name reverse search, unfiltered registry walking, bulk export, fuzzy search, Mode S or ICAO24 reverse lookup, global registry coverage, flight tracking, or another aviation product unless the public API itself gains that reviewed capability and this reference app has a clear reason to demonstrate it.
+Do not add owner-name reverse search, ICAO24 ranges, unfiltered registry walking, bulk export, fuzzy search, global registry coverage, flight tracking, live ADS-B positions, or another aviation product unless the public API itself gains that reviewed capability and this reference app has a clear reason to demonstrate it.
 
 ## Current application surface
 
-The implemented current-data UI has two server-rendered routes:
+The implemented current-data UI is server-rendered and includes:
 
-- `/lookup` performs exact N-number lookup and presents current aircraft, engine, registration, identifier, freshness, and provenance fields;
-- `/discover` performs bounded exact current-registry discovery by manufacturer, model, and registrant state with opaque next-cursor pagination.
+- `/lookup` for exact N-number lookup;
+- `/icao24` for exact six-digit ICAO24 / Mode S lookup;
+- `/status` for evidence-backed N-number lifecycle state;
+- `/changes` for a bounded recent observation-time change-feed sample; and
+- `/discover` for bounded exact current-registry discovery with opaque next-cursor pagination.
 
 Discovery result rows may link into `/lookup` and carry only a validated local return URL. Do not decode discovery cursors, infer page numbers or totals, or introduce client-side API calls to make pagination look richer than the public contract.
 
@@ -52,6 +58,9 @@ History UI must not display retained registrant names, street addresses, aliases
 Treat the public API contract as authoritative for response shape and supported operations.
 
 - An N-number is registration identity, not proof of beneficial economic ownership.
+- Lifecycle `unknown` never means an N-number is available; availability remains `not_determined`.
+- Reservation context must remain non-PII.
+- Change-feed events describe observed snapshot differences, not inferred sales, ownership transfers, or exact transaction times.
 - Retained history is an observation stream. `observedFrom` and `observedThrough` must not be presented as legal ownership periods or exact real-world change times.
 - A nullable source effective date stays unknown unless the public API supplies one.
 - Current FAA releasability and withholding rules must not be bypassed through retained history.

@@ -1,5 +1,6 @@
 export const AIRCRAFT_N_NUMBER_PATTERN =
   /^N(?:[1-9][0-9]{0,4}|[1-9][0-9]{0,3}[A-HJ-NP-Z]|[1-9][0-9]{0,2}[A-HJ-NP-Z]{2})$/;
+export const AIRCRAFT_ICAO24_PATTERN = /^[0-9A-F]{6}$/;
 
 export const AIRCRAFT_DISCOVERY_MAX_FILTER_LENGTH = 100;
 export const AIRCRAFT_DISCOVERY_MAX_CURSOR_LENGTH = 1024;
@@ -98,6 +99,40 @@ export type AircraftPublicDiscoveryRecord = {
 
 export type AircraftCurrentResponse = {
   data: AircraftPublicCurrentRecord;
+};
+
+export type AircraftNNumberState = 'registered' | 'reserved' | 'deregistered' | 'unknown';
+
+export type AircraftNNumberStatusResponse = {
+  data: {
+    contractVersion: 'aircraft-n-number-status-v1';
+    nNumber: string;
+    state: AircraftNNumberState;
+    availability: 'not_determined';
+    observedAt: string;
+    source: AircraftPublicSourceSnapshot;
+    registered: AircraftPublicCurrentRecord | null;
+    reserved: {
+      reserveDate: string | null;
+      sourceReservationTypeCode: string | null;
+      expirationNoticeDate: string | null;
+      purgeDate: string | null;
+    } | null;
+    deregistered: {
+      aircraftId: string | null;
+      serialNumber: string | null;
+      manufactureYear: number | null;
+      sourceRegistrationStatusCode: string | null;
+      cancellationDate: string | null;
+      exportCountryCode: string | null;
+      lastActivityDate: string | null;
+      certificateIssueDate: string | null;
+      airworthinessDate: string | null;
+      modeSCodeOctal: string | null;
+      modeSCodeHex: string | null;
+      matchingRecordCount: number;
+    } | null;
+  };
 };
 
 export type AircraftDiscoveryResponse = {
@@ -207,6 +242,38 @@ export type AircraftHistoryOffsets = {
   eventsOffset: number;
 };
 
+export type AircraftChangeDiffValue =
+  | string
+  | number
+  | boolean
+  | null
+  | {
+      modeSCodeOctal: string | null;
+      modeSCodeHex: string | null;
+    };
+
+export type AircraftChangeDiff = {
+  field: AircraftHistoryChangedField;
+  before: { available: boolean; value: AircraftChangeDiffValue };
+  after: { available: boolean; value: AircraftChangeDiffValue };
+};
+
+export type AircraftChangeFeedResponse = {
+  data: readonly {
+    event: AircraftHistoryEvent;
+    diffs: readonly AircraftChangeDiff[];
+  }[];
+  window: {
+    since: string;
+    until: string;
+    eventType: AircraftHistoryEventType | null;
+  };
+  pagination: {
+    limit: number;
+    nextCursor: string | null;
+  };
+};
+
 const normalizeTextFilter = (
   value: string | undefined,
   name: 'manufacturer' | 'model',
@@ -226,6 +293,11 @@ const normalizeTextFilter = (
 export const normalizeAircraftNNumber = (value: string): string | null => {
   const normalized = value.trim().toUpperCase().replace(/^N-/, 'N');
   return AIRCRAFT_N_NUMBER_PATTERN.test(normalized) ? normalized : null;
+};
+
+export const normalizeAircraftIcao24 = (value: string): string | null => {
+  const normalized = value.trim().toUpperCase();
+  return AIRCRAFT_ICAO24_PATTERN.test(normalized) ? normalized : null;
 };
 
 export const normalizeAircraftDiscoveryFilters = (
@@ -267,6 +339,35 @@ export const buildAircraftLookupPath = (nNumber: string): string => {
   const normalized = normalizeAircraftNNumber(nNumber);
   if (!normalized) throw new Error('A valid U.S. N-number is required.');
   return `/aircraft/${encodeURIComponent(normalized)}`;
+};
+
+export const buildAircraftIcao24Path = (hex: string): string => {
+  const normalized = normalizeAircraftIcao24(hex);
+  if (!normalized) throw new Error('ICAO24 / Mode S hex must contain exactly six hexadecimal digits.');
+  return `/aircraft/icao24/${encodeURIComponent(normalized)}`;
+};
+
+export const buildAircraftStatusPath = (nNumber: string): string => {
+  const normalized = normalizeAircraftNNumber(nNumber);
+  if (!normalized) throw new Error('A valid U.S. N-number is required.');
+  return `/aircraft/n-number/${encodeURIComponent(normalized)}/status`;
+};
+
+export const buildAircraftChangesPath = (since: string, until: string): string => {
+  const sinceMs = Date.parse(since);
+  const untilMs = Date.parse(until);
+  if (!Number.isFinite(sinceMs) || !Number.isFinite(untilMs) || sinceMs >= untilMs) {
+    throw new Error('Recent-change window is invalid.');
+  }
+  if (untilMs - sinceMs > 7 * 24 * 60 * 60 * 1000) {
+    throw new Error('Recent-change window must not exceed seven days.');
+  }
+  const params = new URLSearchParams({
+    since: new Date(sinceMs).toISOString(),
+    until: new Date(untilMs).toISOString(),
+    limit: '20',
+  });
+  return `/aircraft/changes?${params.toString()}`;
 };
 
 export const buildAircraftDiscoveryPath = (

@@ -3,16 +3,21 @@ import 'server-only';
 import { enforceHostedDemoRequestLimit } from './hostedDemo';
 
 import {
+  buildAircraftChangesPath,
   buildAircraftDiscoveryPath,
   buildAircraftHistoryPath,
+  buildAircraftIcao24Path,
   buildAircraftLookupPath,
+  buildAircraftStatusPath,
   normalizeAircraftDiscoveryCursor,
   normalizeAircraftDiscoveryFilters,
+  type AircraftChangeFeedResponse,
   type AircraftCurrentResponse,
   type AircraftDiscoveryInput,
   type AircraftDiscoveryResponse,
   type AircraftHistoryOffsets,
   type AircraftHistoryResponse,
+  type AircraftNNumberStatusResponse,
 } from './aircraftContract';
 
 export const AIRCRAFT_API_BASE_URL = 'https://api.grizzlybulls.com/v1';
@@ -90,6 +95,27 @@ export const aircraftApiRequest = async <T>(
 
 export const getAircraftByNNumber = async (nNumber: string): Promise<AircraftCurrentResponse> => (
   aircraftApiRequest<AircraftCurrentResponse>(buildAircraftLookupPath(nNumber) as `/${string}`)
+);
+
+export const getAircraftByIcao24 = async (hex: string): Promise<AircraftCurrentResponse> => (
+  aircraftApiRequest<AircraftCurrentResponse>(buildAircraftIcao24Path(hex) as `/${string}`)
+);
+
+export const getAircraftNNumberStatus = async (
+  nNumber: string,
+): Promise<AircraftNNumberStatusResponse> => (
+  aircraftApiRequest<AircraftNNumberStatusResponse>(
+    buildAircraftStatusPath(nNumber) as `/${string}`,
+  )
+);
+
+export const getRecentAircraftChanges = async (
+  since: string,
+  until: string,
+): Promise<AircraftChangeFeedResponse> => (
+  aircraftApiRequest<AircraftChangeFeedResponse>(
+    buildAircraftChangesPath(since, until) as `/${string}`,
+  )
 );
 
 export const searchAircraftRegistry = async (
