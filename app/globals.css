@@ -80,6 +80,8 @@ footer {
 
 .navLinks {
   display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
   gap: 24px;
   color: var(--muted);
   font-size: 14px;
@@ -1213,5 +1215,38 @@ footer p {
   .historyPager > div {
     width: 100%;
     flex-wrap: wrap;
+  }
+}
+
+
+.diffList {
+  display: grid;
+  gap: 8px;
+  margin-top: 18px;
+}
+
+.diffRow {
+  display: grid;
+  grid-template-columns: minmax(150px, 0.8fr) minmax(0, 1fr) auto minmax(0, 1fr);
+  gap: 10px;
+  align-items: center;
+  border-top: 1px solid var(--line);
+  padding-top: 10px;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.diffRow strong {
+  color: #dfe8e3;
+  font-size: 12px;
+}
+
+@media (max-width: 560px) {
+  .diffRow {
+    grid-template-columns: 1fr;
+  }
+
+  .diffRow > span[aria-hidden="true"] {
+    display: none;
   }
 }

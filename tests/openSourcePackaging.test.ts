@@ -33,7 +33,7 @@ test('README gives a direct five-minute clone-to-run path', () => {
   assert.match(readme, /\/history/);
 });
 
-test('README examples match the three implemented public API workflows', () => {
+test('README examples cover the implemented public API workflows', () => {
   assert.match(readme, /https:\/\/api\.grizzlybulls\.com\/v1\/aircraft\/N12345/);
   assert.match(
     readme,
@@ -43,6 +43,9 @@ test('README examples match the three implemented public API workflows', () => {
     readme,
     /N12345\/history\?versionsLimit=10&versionsOffset=0&eventsLimit=10&eventsOffset=0/,
   );
+  assert.match(readme, /aircraft\/icao24\/A12239/);
+  assert.match(readme, /aircraft\/n-number\/N172SP\/status/);
+  assert.match(readme, /aircraft\/changes\?since=/);
   assert.match(readme, /Authorization: Bearer \$GRIZZLY_BULLS_API_KEY/);
   assert.match(readme, /process\.env\.GRIZZLY_BULLS_API_KEY/);
   assert.match(readme, /OpenAPI 3\.1/);
@@ -53,7 +56,7 @@ test('README explains the server-only architecture and product limits', () => {
   assert.match(readme, /Browser CORS is intentionally not enabled/);
   assert.match(readme, /no aircraft database/i);
   assert.match(readme, /does \*\*not\*\* provide owner-name reverse search/i);
-  assert.match(readme, /Mode S or ICAO24 reverse lookup/);
+  assert.match(readme, /ICAO24 ranges/);
   assert.match(readme, /not a global aviation registry, flight tracker, legal ownership ledger, or unrestricted public registry-search service/);
   assert.match(readme, /Try the live demo/);
   assert.match(readme, /aircraft-demo\.grizzlybulls\.com/);
@@ -78,7 +81,7 @@ test('contribution guide keeps secrets, privacy, and unsupported scope bounded',
   assert.match(contributing, /AGENTS\.md/);
   assert.match(contributing, /`GRIZZLY_BULLS_API_KEY` stays server-only/);
   assert.match(contributing, /owner-name or registrant-name reverse search/);
-  assert.match(contributing, /Mode S \/ ICAO24 reverse lookup/);
+  assert.match(contributing, /ICAO24 range or fuzzy lookup/);
   assert.match(contributing, /must not become a way to recover personal information suppressed by current FAA public data/);
   assert.match(contributing, /Do not fabricate result data or generate imitation screenshots/);
 });

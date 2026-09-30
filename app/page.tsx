@@ -9,6 +9,27 @@ const capabilities = [
     action: 'Open lookup',
   },
   {
+    eyebrow: 'ICAO24',
+    title: 'Resolve Mode S hex',
+    body: 'Resolve one exact six-digit ICAO24 / Mode S address to the matching current U.S. FAA registration.',
+    href: '/icao24',
+    action: 'Resolve ICAO24',
+  },
+  {
+    eyebrow: 'Lifecycle',
+    title: 'N-number status evidence',
+    body: 'Resolve an N-number across reviewed registered, reserved, deregistered, and unknown states without claiming that unknown means available.',
+    href: '/status',
+    action: 'Check N-number status',
+  },
+  {
+    eyebrow: 'Changes',
+    title: 'Recent observed changes',
+    body: 'Inspect a bounded registry-wide stream of reviewed observation-time changes with privacy-safe before/after diffs.',
+    href: '/changes',
+    action: 'View recent changes',
+  },
+  {
     eyebrow: 'Discover',
     title: 'Bounded registry search',
     body: 'Search the current registry by exact manufacturer, model, or registrant state using the same authenticated API available to developers.',
@@ -33,6 +54,27 @@ const presets = [
     action: 'Open N172SP',
   },
   {
+    eyebrow: 'ICAO24 resolution',
+    title: 'Resolve a current Mode S address',
+    body: 'Use the current ICAO24 / Mode S hex associated with the same preset aircraft and resolve it through the dedicated endpoint.',
+    href: '/icao24?hex=A12239',
+    action: 'Resolve A12239',
+  },
+  {
+    eyebrow: 'Lifecycle evidence',
+    title: 'Check an N-number across FAA states',
+    body: 'See registered, reserved, deregistered, or unknown evidence with the explicit not-determined availability boundary.',
+    href: '/status?nNumber=N172SP',
+    action: 'Check N172SP status',
+  },
+  {
+    eyebrow: 'Observed change feed',
+    title: 'Inspect recent registry changes',
+    body: 'Load a bounded recent observation window with reviewed event types and privacy-safe field diffs.',
+    href: '/changes',
+    action: 'View recent changes',
+  },
+  {
     eyebrow: 'Bounded discovery',
     title: 'Browse Florida registrations',
     body: 'Run a real state-filtered registry query and click any returned N-number into its current record.',
@@ -53,7 +95,7 @@ const boundaries = [
   'API key stays on the server',
   'No owner-name reverse search',
   'No unfiltered registry walking or bulk export',
-  'No Mode S or ICAO24 reverse lookup',
+  'Exact ICAO24 lookup only; no ranges or live ADS-B positions',
   'Registration data is not proof of beneficial ownership',
 ] as const;
 
@@ -68,8 +110,9 @@ export default function Home() {
           </Link>
           <div className="navLinks">
             <Link href="/lookup">Lookup</Link>
-            <Link href="/discover">Discover</Link>
-            <Link href="/history">History</Link>
+            <Link href="/icao24">ICAO24</Link>
+            <Link href="/status">Status</Link>
+            <Link href="/changes">Changes</Link>
             <a href="https://grizzlybulls.com/aircraft-api">API</a>
             <a href="https://github.com/Grizzly-Bulls/aircraft-registry-explorer">GitHub</a>
           </div>
@@ -80,9 +123,9 @@ export default function Home() {
             <p className="kicker">Open-source reference app</p>
             <h1>Explore the FAA aircraft registry through a developer API.</h1>
             <p className="lede">
-              Look up an exact N-number or search the current U.S. registry by exact manufacturer,
-              model, or registrant state. Every data request uses the public Grizzly Bulls Aircraft
-              Intelligence API through this application&apos;s server.
+              Look up an N-number, resolve ICAO24, inspect lifecycle evidence, or review recent
+              observed FAA registry changes. Every data request uses the public Grizzly Bulls
+              Aircraft Intelligence API through this application&apos;s server.
             </p>
             <div className="actions">
               <Link className="button primary" href="/lookup">

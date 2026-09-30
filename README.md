@@ -53,11 +53,14 @@ pnpm dev
 
 Open [http://localhost:3000](http://localhost:3000).
 
-Try these three workflows:
+Try these six workflows:
 
 1. **Lookup:** open `/lookup` and enter an exact U.S. N-number.
-2. **Discover:** open `/discover` and search by exact manufacturer, model, registrant state, or a combination.
-3. **History:** open `/history` and enter an N-number to inspect retained observed versions and PII-free change events.
+2. **ICAO24:** open `/icao24` and resolve one exact six-digit Mode S / ICAO24 hex value.
+3. **Lifecycle status:** open `/status` and inspect registered, reserved, deregistered, or unknown N-number evidence.
+4. **Changes:** open `/changes` to inspect a bounded recent observation-time change-feed sample with privacy-safe diffs.
+5. **Discover:** open `/discover` and search the current registry with supported exact filters.
+6. **History:** open `/history` and enter an N-number to inspect retained observed versions and PII-free change events.
 
 The machine-readable API contract is available as [OpenAPI 3.1](https://api.grizzlybulls.com/v1/openapi).
 
@@ -66,7 +69,10 @@ The machine-readable API contract is available as [OpenAPI 3.1](https://api.griz
 The reference app supports:
 
 - exact U.S. N-number lookup;
-- bounded current-registry discovery by exact manufacturer, model, or registrant state;
+- exact current ICAO24 / Mode S lookup;
+- N-number lifecycle status across registered, reserved, deregistered, and unknown states;
+- bounded recent observed changes with privacy-safe before/after diffs;
+- bounded current-registry discovery by supported exact filters;
 - current aircraft, engine, airworthiness, registration, and returned Mode S / ICAO24 fields;
 - source freshness and provenance alongside current records;
 - opaque keyset pagination for discovery;
@@ -75,7 +81,7 @@ The reference app supports:
 - PII-free retained change events with source provenance; and
 - independent bounded pagination for observed versions and change events.
 
-It does **not** provide owner-name reverse search, Mode S or ICAO24 reverse lookup, global registry coverage, flight tracking, bulk registry export, fuzzy search, arbitrary discovery sorting, registry totals, or an unfiltered registry walk.
+It does **not** provide owner-name reverse search, ICAO24 ranges, global registry coverage, flight tracking or live ADS-B positions, bulk registry export, fuzzy search, arbitrary discovery sorting, registry totals, or an unfiltered registry walk.
 
 ## Architecture
 
@@ -84,7 +90,7 @@ The browser never receives the Aircraft API key. The hosted demo uses a dedicate
 ```text
 browser
   |
-  | GET /lookup, /discover, or /history
+  | GET /lookup, /icao24, /status, /changes, /discover, or /history
   v
 Next.js server-rendered page
   |
@@ -103,7 +109,7 @@ The live demo at [aircraft-demo.grizzlybulls.com](https://aircraft-demo.grizzlyb
 
 Hosted mode also applies lower application-side abuse limits before a request reaches the Aircraft API. The machine API independently applies a higher first-party demo ceiling. Demo traffic does not consume a customer monthly quota and is not treated as customer API adoption.
 
-The hosted app exposes no generic proxy route: visitors can use only the same exact lookup, bounded discovery, and observed-history workflows implemented in this repository.
+The hosted app exposes no generic proxy route: visitors can use only the same exact lookup, ICAO24, lifecycle-status, recent-change, bounded-discovery, and observed-history workflows implemented in this repository.
 
 ## Public API examples
 
@@ -117,6 +123,37 @@ curl --fail-with-body \
   -H "Accept: application/json" \
   "https://api.grizzlybulls.com/v1/aircraft/N12345"
 ```
+
+### Exact ICAO24 / Mode S lookup
+
+```bash
+curl --fail-with-body \
+  -H "Authorization: Bearer $GRIZZLY_BULLS_API_KEY" \
+  -H "Accept: application/json" \
+  "https://api.grizzlybulls.com/v1/aircraft/icao24/A12239"
+```
+
+### N-number lifecycle status
+
+```bash
+curl --fail-with-body \
+  -H "Authorization: Bearer $GRIZZLY_BULLS_API_KEY" \
+  -H "Accept: application/json" \
+  "https://api.grizzlybulls.com/v1/aircraft/n-number/N172SP/status"
+```
+
+The status resolver returns reviewed `registered`, `reserved`, `deregistered`, or `unknown` evidence. `unknown` does **not** mean available; the API deliberately reports `availability: "not_determined"`.
+
+### Recent observed changes
+
+```bash
+curl --fail-with-body \
+  -H "Authorization: Bearer $GRIZZLY_BULLS_API_KEY" \
+  -H "Accept: application/json" \
+  "https://api.grizzlybulls.com/v1/aircraft/changes?since=2026-09-29T00%3A00%3A00.000Z&until=2026-09-30T00%3A00%3A00.000Z&limit=20"
+```
+
+The change feed uses observation-time windows and reviewed privacy-safe diffs. It does not infer sales, legal ownership transfers, or exact real-world transaction times.
 
 ### Bounded current-registry discovery
 
@@ -170,7 +207,7 @@ For the complete request and response contract, use the [OpenAPI document](https
 
 ## Discovery semantics
 
-Registry discovery mirrors the public API contract:
+The reference app keeps discovery deliberately simple:
 
 - at least one of manufacturer, model, or two-letter registrant state is required;
 - manufacturer, model, and state filters are normalized and matched exactly;
@@ -179,7 +216,7 @@ Registry discovery mirrors the public API contract:
 - pagination uses the opaque `nextCursor` returned by the API; and
 - a cursor is reused only with the same discovery filters.
 
-The application does not decode cursors or infer page numbers or registry totals.
+The machine API also supports reviewed exact serial-number, manufacture-year, and registration-status filters. This reference UI does not need to expose every supported filter to demonstrate bounded discovery. The application does not decode cursors or infer page numbers or registry totals.
 
 ## History semantics
 
@@ -197,7 +234,7 @@ The history UI deliberately does not display retained registrant names, street a
 
 FAA registration data identifies the public registrant record. It is not proof of beneficial economic ownership.
 
-Mode S / ICAO24 values shown on a lookup page are fields returned for that N-number. Their presence does not imply that the app supports reverse lookup from those identifiers.
+Mode S / ICAO24 values shown on an N-number lookup are also usable through the dedicated exact ICAO24 route. That route resolves current FAA registry identity only; it is not a live transponder-position or flight-tracking service.
 
 This project is an API integration example, not a global aviation registry, flight tracker, legal ownership ledger, or unrestricted public registry-search service.
 
