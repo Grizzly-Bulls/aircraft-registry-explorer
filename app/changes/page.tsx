@@ -7,6 +7,8 @@ import {
   type AircraftChangeFeedResponse,
 } from '@/src/lib/aircraftContract';
 
+export const dynamic = 'force-dynamic';
+
 const formatTimestamp = (value: string): string => {
   const parsed = new Date(value);
   return Number.isNaN(parsed.getTime()) ? value : `${parsed.toLocaleString('en-US', {

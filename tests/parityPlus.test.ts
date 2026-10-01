@@ -92,3 +92,8 @@ test('home and public guidance expose the four required hands-on proof jobs', ()
     assert.doesNotMatch(source, /\bAIR\d+[A-Z]*\b/);
   }
 });
+
+
+test('changes page is request-time dynamic so hosted credentials are resolved at runtime', () => {
+  assert.match(changes, /export const dynamic = 'force-dynamic'/);
+});
