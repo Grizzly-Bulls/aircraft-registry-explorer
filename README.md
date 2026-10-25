@@ -64,6 +64,16 @@ Try these six workflows:
 
 The machine-readable API contract is available as [OpenAPI 3.1](https://api.grizzlybulls.com/v1/openapi).
 
+## Enrich a small fleet from known N-numbers
+
+The [bounded fleet-onboarding starter](examples/aircraft-fleet-onboarding/README.md)
+takes an explicitly supplied one-column N-number list, validates and
+deduplicates it in an offline dry-run, and (only with `--live`) fetches up to
+25 current public FAA records using one server-side API key. It projects
+aircraft make/model/year/serial and the reviewed source retrieval time,
+without storing registrant PII. This is a distinct vendor-integration task
+from browser lookup and does not enable bulk registry enumeration.
+
 ## Receive signed registration-change notifications
 
 The [signed webhook receiver example](examples/aircraft-webhook-receiver/README.md)

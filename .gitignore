@@ -9,3 +9,4 @@ coverage/
 next-env.d.ts
 *.tsbuildinfo
 .webhook-receipts/
+local-aircraft-enrichment.json
