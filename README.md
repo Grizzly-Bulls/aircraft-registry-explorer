@@ -64,6 +64,20 @@ Try these six workflows:
 
 The machine-readable API contract is available as [OpenAPI 3.1](https://api.grizzlybulls.com/v1/openapi).
 
+## Receive signed registration-change notifications
+
+The [signed webhook receiver example](examples/aircraft-webhook-receiver/README.md)
+covers a different developer job from the interactive explorer: accepting
+signed `aircraft.change` events, verifying exact raw-body HMAC signatures,
+deduplicating retries, and recording minimal receipts. It is a standalone
+Node.js 24 sample with no dependencies, a local synthetic sender, and tests.
+It does not ship with the hosted demo or expose an Aircraft API key.
+
+The bounded public change feed can be evaluated on Free. Live watch-list
+delivery requires a Developer or Business plan and a developer-operated
+public HTTPS endpoint; the sample's localhost listener alone is not a
+deliverable webhook target.
+
 ## What the app demonstrates
 
 The reference app supports:
