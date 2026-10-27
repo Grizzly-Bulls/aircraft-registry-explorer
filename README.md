@@ -64,6 +64,8 @@ Try these six workflows:
 
 The machine-readable API contract is available as [OpenAPI 3.1](https://api.grizzlybulls.com/v1/openapi).
 
+You can also browse the [public Grizzly Bulls Aircraft Intelligence API Postman collection](https://www.postman.com/grizzly-bulls/grizzly-bulls-aircraft-intelligence-api/collection/488cym6/grizzly-bulls-aircraft-intelligence-api) before trying requests with your own Grizzly Bulls API key. Postman is a request-exploration tool, not a separate account or billing service.
+
 ## Enrich a small fleet from known N-numbers
 
 The [bounded fleet-onboarding starter](examples/aircraft-fleet-onboarding/README.md)
@@ -286,6 +288,7 @@ The final status should be clean.
 - [Live demo](https://aircraft-demo.grizzlybulls.com)
 - [Aircraft Intelligence API](https://grizzlybulls.com/aircraft-api)
 - [OpenAPI 3.1 contract](https://api.grizzlybulls.com/v1/openapi)
+- [Postman API collection](https://www.postman.com/grizzly-bulls/grizzly-bulls-aircraft-intelligence-api/collection/488cym6/grizzly-bulls-aircraft-intelligence-api)
 - [Grizzly Bulls](https://grizzlybulls.com)
 - [Contributing guide](./CONTRIBUTING.md)
 - [MIT license](./LICENSE)
