@@ -76,6 +76,16 @@ aircraft make/model/year/serial and the reviewed source retrieval time,
 without storing registrant PII. This is a distinct vendor-integration task
 from browser lookup and does not enable bulk registry enumeration.
 
+## Review observed changes for a known fleet
+
+The [bounded fleet history review](examples/aircraft-fleet-history-review/README.md)
+accepts up to ten explicitly supplied N-numbers and returns privacy-safe observed
+change-event metadata from the public retained-history endpoint. It runs offline
+by default, requires an explicit key and opt-in for live requests, and reports
+when the first event page is incomplete. Unlike the onboarding starter, it reviews
+observed registry changes, not just current aircraft details. It does not infer
+legal ownership changes or record current-withheld registrant information.
+
 ## Receive signed registration-change notifications
 
 The [signed webhook receiver example](examples/aircraft-webhook-receiver/README.md)
