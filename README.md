@@ -86,6 +86,16 @@ when the first event page is incomplete. Unlike the onboarding starter, it revie
 observed registry changes, not just current aircraft details. It does not infer
 legal ownership changes or record current-withheld registrant information.
 
+## Review registration identity drift for an existing fleet
+
+The [known-fleet drift review](examples/aircraft-fleet-drift-review/README.md)
+takes up to ten N-numbers with local make/model/serial fields, compares
+them against the reviewed current FAA API, and attaches a bounded,
+privacy-safe observed-event sample. It starts offline and needs an
+explicit Free-key opt-in for live reads. Identity conflicts require
+manual review: the example never infers N-number reuse or changes a
+customer's aircraft master record.
+
 ## Receive signed registration-change notifications
 
 The [signed webhook receiver example](examples/aircraft-webhook-receiver/README.md)
