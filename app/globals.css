@@ -1250,3 +1250,39 @@ footer p {
     display: none;
   }
 }
+
+/* Contextual conversion path from the public demo to a developer's own key. */
+.demoApiHandoff {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 22px;
+  margin-top: 26px;
+  border: 1px solid rgba(185, 245, 125, 0.3);
+  border-radius: 16px;
+  background: rgba(185, 245, 125, 0.055);
+  padding: 22px;
+}
+
+.demoApiHandoff strong {
+  color: var(--text);
+  font-size: 16px;
+}
+
+.demoApiHandoff p {
+  margin: 8px 0 0;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.demoApiHandoff .button {
+  flex-shrink: 0;
+}
+
+@media (max-width: 620px) {
+  .demoApiHandoff {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
