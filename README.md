@@ -8,6 +8,14 @@ It shows how to build against current U.S. FAA aircraft registration data withou
 
 The application uses the same public API contract available to any developer. It does not import private Grizzly Bulls code, connect to Grizzly Bulls databases, or maintain a second aircraft-data source of truth.
 
+## Choose your first task
+
+- **Inspect FAA records without installing anything:** [open the hosted demo](https://aircraft-demo.grizzlybulls.com), then try an exact N-number lookup, a bounded registry search, or observed registration history. These are read-only demonstrations, not a browser-accessible machine API.
+- **Add aircraft details to your own software:** [try the small-fleet onboarding starter](examples/aircraft-fleet-onboarding/README.md). Preview and validate up to 25 N-numbers offline; use your own [Free API key](https://grizzlybulls.com/aircraft-api) only when you opt into live current-record lookups.
+- **Check an existing fleet for changes:** [review identity drift](examples/aircraft-fleet-drift-review/README.md) or [inspect observed history](examples/aircraft-fleet-history-review/README.md) for known aircraft. For delivery integration, [verify a signed webhook receiver locally](examples/aircraft-webhook-receiver/README.md) with synthetic events before considering paid watches. Observed changes are not legal transfer dates.
+
+If you already know the API you need, go straight to the [OpenAPI reference](https://api.grizzlybulls.com/v1/openapi) or the [Aircraft API integration guide](https://grizzlybulls.com/aircraft-api). API credentials must stay server-side.
+
 ## Product tour
 
 ### Current N-number lookup
