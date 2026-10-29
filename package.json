@@ -13,7 +13,7 @@
     "start": "next start",
     "lint": "eslint .",
     "typecheck": "next typegen && tsc --noEmit",
-    "test": "tsx --test tests/**/*.test.ts && node --test examples/aircraft-webhook-receiver/*.test.mjs && node --test examples/aircraft-fleet-onboarding/*.test.mjs && node --test examples/aircraft-fleet-history-review/*.test.mjs",
+    "test": "tsx --test tests/**/*.test.ts && node --test examples/aircraft-webhook-receiver/*.test.mjs && node --test examples/aircraft-fleet-onboarding/*.test.mjs && node --test examples/aircraft-fleet-history-review/*.test.mjs && node --test examples/aircraft-fleet-drift-review/*.test.mjs",
     "check": "pnpm lint && pnpm typecheck && pnpm test && pnpm build"
   },
   "dependencies": {
