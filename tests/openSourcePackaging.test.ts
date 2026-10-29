@@ -33,6 +33,22 @@ test('README gives a direct five-minute clone-to-run path', () => {
   assert.match(readme, /\/history/);
 });
 
+test('GitHub landing page gives a no-install demo and three scoped integration paths', () => {
+  const opening = readme.split('## Product tour')[0];
+  assert.match(opening, /## Choose your first task/);
+  assert.match(opening, /https:\/\/aircraft-demo\.grizzlybulls\.com/);
+  assert.match(opening, /without installing anything/);
+  assert.match(opening, /examples\/aircraft-fleet-onboarding\/README\.md/);
+  assert.match(opening, /up to 25 N-numbers offline/);
+  assert.match(opening, /examples\/aircraft-fleet-drift-review\/README\.md/);
+  assert.match(opening, /examples\/aircraft-fleet-history-review\/README\.md/);
+  assert.match(opening, /examples\/aircraft-webhook-receiver\/README\.md/);
+  assert.match(opening, /synthetic events before considering paid watches/);
+  assert.match(opening, /https:\/\/api\.grizzlybulls\.com\/v1\/openapi/);
+  assert.match(opening, /API credentials must stay server-side/);
+  assert.doesNotMatch(opening, /global coverage|owner.search|live ADS-B/i);
+});
+
 test('README examples cover the implemented public API workflows', () => {
   assert.match(readme, /https:\/\/api\.grizzlybulls\.com\/v1\/aircraft\/N12345/);
   assert.match(
