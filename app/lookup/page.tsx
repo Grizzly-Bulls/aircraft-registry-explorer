@@ -1,5 +1,7 @@
 import Link from 'next/link';
 
+import { DemoApiHandoff } from '@/src/components/DemoApiHandoff';
+
 import { AircraftApiError, getAircraftByNNumber } from '@/src/lib/aircraftApi';
 import {
   normalizeAircraftNNumber,
@@ -252,6 +254,7 @@ export default async function LookupPage({
               </Link>
             </div>
             <AircraftResult record={record} />
+            <DemoApiHandoff moment="lookup" />
           </>
         ) : null}
       </section>
