@@ -1,5 +1,7 @@
 import Link from 'next/link';
 
+import { DemoApiHandoff } from '@/src/components/DemoApiHandoff';
+
 import { AircraftApiError, getAircraftHistory } from '@/src/lib/aircraftApi';
 import {
   AIRCRAFT_HISTORY_PAGE_SIZE,
@@ -321,6 +323,8 @@ export default async function HistoryPage({
             <p>{errorMessage}</p>
           </div>
         ) : null}
+
+        {history && nNumber ? <DemoApiHandoff moment="history" /> : null}
 
         {history && nNumber ? (
           <div className="historyLayout">
