@@ -1,5 +1,7 @@
 import Link from 'next/link';
 
+import { DemoApiHandoff } from '@/src/components/DemoApiHandoff';
+
 const capabilities = [
   {
     eyebrow: 'Lookup',
@@ -135,6 +137,7 @@ export default function Home() {
                 Search the registry
               </Link>
             </div>
+            <DemoApiHandoff moment="home" />
           </div>
 
           <aside className="terminal" aria-label="Example API request">
