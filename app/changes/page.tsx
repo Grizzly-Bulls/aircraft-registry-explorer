@@ -1,5 +1,7 @@
 import Link from 'next/link';
 
+import { DemoApiHandoff } from '@/src/components/DemoApiHandoff';
+
 import { AircraftApiError, getRecentAircraftChanges } from '@/src/lib/aircraftApi';
 import {
   labelAircraftHistoryEvent,
@@ -89,6 +91,8 @@ export default async function ChangesPage() {
         </div>
 
         {errorMessage ? <div className="errorPanel" role="alert"><strong>Recent changes unavailable</strong><p>{errorMessage}</p></div> : null}
+
+        {changes ? <DemoApiHandoff moment="changes" /> : null}
 
         {changes ? (
           <section className="historySection" aria-labelledby="recent-changes-heading">
